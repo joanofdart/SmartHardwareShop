@@ -1,23 +1,22 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using SmartHardwareShop.Persistence;
 using SimpleInjector;
+using SmartHardwareShop.Interfaces.UseCases;
+using SmartHardwareShop.Implementations;
+using SmartHardwareShop.API.Infrastructure;
+using Microsoft.AspNetCore.Authentication;
+using System.Security.Claims;
 
 namespace SmartHardwareShop
 {
     public class Startup
     {
-        private Container container = new SimpleInjector.Container();
+        private readonly Container container = new Container();
 
         public Startup(IConfiguration configuration)
         {
@@ -28,8 +27,15 @@ namespace SmartHardwareShop
 
         public void ConfigureServices(IServiceCollection services)
         {
-
             services.AddControllers();
+            services.AddAuthentication("BasicAuthentication")
+                .AddScheme<AuthenticationSchemeOptions, BasicAuthenticationHandler>("BasicAuthentication", null);
+            services.AddScoped<IUserService, UserService>();
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy("ADMIN", policy => policy.RequireClaim(ClaimTypes.Role, "ADMIN"));
+                options.AddPolicy("CUSTOMER", policy => policy.RequireClaim(ClaimTypes.Role, "CUSTOMER"));
+            });
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "SmartHardwareShop", Version = "v1" });
@@ -42,12 +48,17 @@ namespace SmartHardwareShop
                 options.AddLogging();
             });
 
+            services.AddMemoryCache();
+
             InitializeContainer();
         }
 
         public void InitializeContainer()
         {
-            
+            container.RegisterPersistence();
+            /// Register use cases
+            container.Register<IGetCart, GetCart>();
+            container.Register<ICreateCart, CreateCart>();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -65,7 +76,16 @@ namespace SmartHardwareShop
 
             app.UseRouting();
 
+            app.UseCors(x => x
+                .AllowAnyOrigin()
+                .AllowAnyMethod()
+                .AllowAnyHeader()
+            );
+
+            app.UseAuthentication();
+
             app.UseAuthorization();
+
 
             app.UseEndpoints(endpoints =>
             {
