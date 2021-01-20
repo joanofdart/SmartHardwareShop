@@ -56,7 +56,14 @@ namespace SmartHardwareShop
         {
             container.RegisterPersistence();
 
-            /// Register use cases
+            /// Cart Use Cases
+            container.Register<ICreateCart, CreateCart>();
+            container.Register<IGetCart, GetCart>();
+            container.Register<IOpenCart, OpenCart>();
+            container.Register<ICloseCart, CloseCart>();
+            container.Register<IGetAllCarts, GetAllCarts>();
+
+            /// Product Use Cases
             container.Register<IGetProduct, GetProduct>();
             container.Register<IGetProducts, GetProducts>();
             container.Register<IAddProduct, AddProduct>();
@@ -65,12 +72,14 @@ namespace SmartHardwareShop
             container.Register<IDeleteAllProducts, DeleteAllProducts>();
             container.Register<IGenerateInitialProducts, GenerateInitialProducts>();
 
-            /// Cart Use Cases
-            container.Register<ICreateCart, CreateCart>();
-            container.Register<IGetCart, GetCart>();
-            container.Register<IOpenCart, OpenCart>();
-            container.Register<ICloseCart, CloseCart>();
-            container.Register<IGetAllCarts, GetAllCarts>();
+            /// News Use Cases
+            container.Register<IGetNews, GetNews>();
+            container.Register<IGetAllNews, GetAllNews>();
+            container.Register<IAddNews, AddNews>();
+            container.Register<IUpdateNews, UpdateNews>();
+            container.Register<IDeleteNews, DeleteNews>();
+            container.Register<IDeleteAllNews, DeleteAllNews>();
+
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

@@ -7,10 +7,10 @@ namespace SmartHardwareShop.Persistence.Interfaces
     public interface IProductHandler
     {
         List<Product> GetAll();
-        Product ById(Guid productId);
+        Product Get(Guid productId);
         void Add(Product product);
-        void Remove(Guid productId);
-        void RemoveAll();
+        void Delete(Guid productId);
+        void DeleteAll();
         void Update(Product product);
         void GenerateInitialProducts();
     }

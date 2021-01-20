@@ -14,6 +14,7 @@ namespace SmartHardwareShop.Persistence
         public static void RegisterPersistence(this Container container) {
             container.Register<ICartRepository, CartRepository>();
             container.Register<IProductRepository, ProductRepository>();
+            container.Register<INewsRepository, NewsRepository>();
             container.Register<ILiteDbContext, LiteDbContext>();
             container.Register<ICartHandler, CartHandler>();
             container.Register<IProductHandler, ProductHandler>();

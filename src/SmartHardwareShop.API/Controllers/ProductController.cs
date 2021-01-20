@@ -58,8 +58,8 @@ namespace SmartHardwareShop.API.Controllers
         {
             try
             {
-                var _cartResponse = await _getProduct.Execute(productId);
-                return Ok(_cartResponse);
+                var _productResponse = await _getProduct.Execute(productId);
+                return Ok(_productResponse);
             } 
             catch (Exception)
             {

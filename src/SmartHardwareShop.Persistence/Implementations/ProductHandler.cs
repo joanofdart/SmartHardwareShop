@@ -53,7 +53,7 @@ namespace SmartHardwareShop.Persistence.Implementations
             return list;
         }
 
-        public Product ById(Guid productId)
+        public Product Get(Guid productId)
         {
             var product = _productsCollection.FindById(productId);
             return product;
@@ -64,12 +64,12 @@ namespace SmartHardwareShop.Persistence.Implementations
             _productsCollection.Insert(product);
         }
 
-        public void Remove(Guid productId)
+        public void Delete(Guid productId)
         {
             _productsCollection.Delete(productId);
         }
 
-        public void RemoveAll()
+        public void DeleteAll()
         {
             _productsCollection.DeleteAll();
         }
@@ -95,23 +95,26 @@ namespace SmartHardwareShop.Persistence.Implementations
 
         public void GenerateInitialProducts()
         {
-            List<Product> products = new List<Product>();
-            for(var i = 0; i < _defaultShops.Length; i++)
+            if (_productsCollection.Count() <= 0)
             {
-                for (var j = 0; j < _defaultProductNames.Length; j++)
+                List<Product> products = new List<Product>();
+                for(var i = 0; i < _defaultShops.Length; i++)
                 {
-                    var product = new Product
+                    for (var j = 0; j < _defaultProductNames.Length; j++)
                     {
-                        ProductId = Guid.NewGuid(),
-                        ProductName = _defaultProductNames[j],
-                        ProductPrice = _random.Next(0, 2000),
-                        ProductDescription = "Default Product",
-                        ProductSeller = _defaultShops[i]
-                    };
-                    products.Add(product);
+                        var product = new Product
+                        {
+                            ProductId = Guid.NewGuid(),
+                            ProductName = _defaultProductNames[j],
+                            ProductPrice = _random.Next(0, 2000),
+                            ProductDescription = "Default Product",
+                            ProductSeller = _defaultShops[i]
+                        };
+                        products.Add(product);
+                    }
                 }
+                _productsCollection.InsertBulk(products);
             }
-            _productsCollection.InsertBulk(products);
         }
     }
 }

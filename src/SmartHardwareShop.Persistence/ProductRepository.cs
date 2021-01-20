@@ -29,7 +29,7 @@ namespace SmartHardwareShop.Persistence
         public async Task<Product> Get(Guid productId)
         {
             var productFromDb = await Task.Run(() => {
-                return _productHandler.ById(productId);
+                return _productHandler.Get(productId);
             });
 
             return productFromDb;
@@ -51,14 +51,14 @@ namespace SmartHardwareShop.Persistence
         public async Task Delete(Guid productId)
         {
             await Task.Run(() => {
-                _productHandler.Remove(productId);
+                _productHandler.Delete(productId);
             });
         }
 
         public async Task DeleteAll()
         {
             await Task.Run(() => {
-                _productHandler.RemoveAll();
+                _productHandler.DeleteAll();
             });
         }
 

@@ -72,7 +72,6 @@ namespace SmartHardwareShop.API.Controllers
             {
                 return StatusCode(StatusCodes.Status500InternalServerError);
             }
-
         }
 
         [Authorize(Policy = "ADMIN")]
