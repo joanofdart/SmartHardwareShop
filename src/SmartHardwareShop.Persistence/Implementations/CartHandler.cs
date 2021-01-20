@@ -1,39 +1,43 @@
-﻿using Microsoft.Extensions.Caching.Memory;
+﻿using LiteDB;
 using SmartHardwareShop.Models;
 using SmartHardwareShop.Persistence.Interfaces;
 using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace SmartHardwareShop.Persistence.Implementations
 {
-    class CartHandler : IMemoryDatabase<Cart>
+    class CartHandler : ICartHandler
     {
-        private readonly IMemoryCache _memoryCache;
+        private LiteDatabase _liteDatabase;
+        private readonly ILiteCollection<Cart> _cartsCollection;
 
-        public CartHandler(IMemoryCache memoryCache)
+        public CartHandler(ILiteDbContext liteDbContext)
         {
-            _memoryCache = memoryCache;
+            _liteDatabase = liteDbContext.Database;
+            _cartsCollection = _liteDatabase.GetCollection<Cart>("carts");
+            _cartsCollection.EnsureIndex(x => x.CartId);
         }
 
-        public Cart AddItem(Cart cart)
+        public Cart Create(Cart cart)
         {
+            cart.CartClosed = false;
             cart.CartId = Guid.NewGuid();
-            return _memoryCache.Set($"{nameof(Cart)}_{cart.CartId}", cart);
-        }
-
-        public Cart GetItem(Guid key)
-        {
-            if (!_memoryCache.TryGetValue($"{nameof(Cart)}_{key}", out Cart cart)) {
-                return null;
-            }
-
+            cart.Products = new List<Product>();
+            _cartsCollection.Insert(cart);
             return cart;
         }
 
-        public void RemoveItem(Cart cart)
+        public Cart ById(Guid cartId)
         {
-            _memoryCache.Remove($"{nameof(Cart)}_{cart.CartId}");
+            var cart = _cartsCollection.FindById(cartId);
+            return cart;
+        }
+
+        public void Close(Guid cartId)
+        {
+            var cart = _cartsCollection.FindById(cartId);
+            cart.CartClosed = true;
+            _cartsCollection.Update(cart);
         }
     }
 }

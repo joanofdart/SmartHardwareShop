@@ -1,6 +1,5 @@
 ﻿using SimpleInjector;
 using SmartHardwareShop.Interfaces.Repositories;
-using SmartHardwareShop.Models;
 using SmartHardwareShop.Persistence.Implementations;
 using SmartHardwareShop.Persistence.Interfaces;
 
@@ -14,8 +13,10 @@ namespace SmartHardwareShop.Persistence
         /// <param name="container"></param>
         public static void RegisterPersistence(this Container container) {
             container.Register<ICartRepository, CartRepository>();
-            container.Register<IMemoryDatabase<Cart>, CartHandler>();
-            container.Register<IMemoryDatabase<Product>, ProductHandler>();
+            container.Register<ILiteDbContext, LiteDbContext>();
+            container.Register<ICartHandler, CartHandler>();
+            container.Register<IProductHandler, ProductHandler>();
+            container.Register<INewsHandler, NewsHandler>();
         }
     }
 }

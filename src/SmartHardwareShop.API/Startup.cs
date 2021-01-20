@@ -11,6 +11,7 @@ using SmartHardwareShop.Implementations;
 using SmartHardwareShop.API.Infrastructure;
 using Microsoft.AspNetCore.Authentication;
 using System.Security.Claims;
+using static SmartHardwareShop.Persistence.Implementations.LiteDbContext;
 
 namespace SmartHardwareShop
 {
@@ -27,6 +28,7 @@ namespace SmartHardwareShop
 
         public void ConfigureServices(IServiceCollection services)
         {
+            services.Configure<LiteDbOptions>(Configuration.GetSection("LiteDbOptions"));
             services.AddControllers();
             services.AddAuthentication("BasicAuthentication")
                 .AddScheme<AuthenticationSchemeOptions, BasicAuthenticationHandler>("BasicAuthentication", null);
@@ -47,9 +49,6 @@ namespace SmartHardwareShop
 
                 options.AddLogging();
             });
-
-            services.AddMemoryCache();
-
             InitializeContainer();
         }
 
@@ -57,7 +56,7 @@ namespace SmartHardwareShop
         {
             container.RegisterPersistence();
             /// Register use cases
-            container.Register<IGetCart, GetCart>();
+            container.Register<IGetProducts, GetProducts>();
             container.Register<ICreateCart, CreateCart>();
         }
 

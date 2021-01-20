@@ -1,34 +1,50 @@
-﻿using Microsoft.Extensions.Caching.Memory;
+﻿using LiteDB;
 using SmartHardwareShop.Models;
 using SmartHardwareShop.Persistence.Interfaces;
 using System;
 using System.Collections.Generic;
-using System.Text;
+using System.Linq;
 
 namespace SmartHardwareShop.Persistence.Implementations
 {
-    public class ProductHandler : IMemoryDatabase<Product>
+    class ProductHandler : IProductHandler
     {
-        private readonly IMemoryCache _memoryCache;
+        private readonly LiteDatabase _liteDatabase;
+        private readonly ILiteCollection<Product> _productsCollection;
 
-        public ProductHandler(IMemoryCache memoryCache)
+        public ProductHandler(ILiteDbContext liteDbContext)
         {
-            _memoryCache = memoryCache;
+            _liteDatabase = liteDbContext.Database;
+            _productsCollection = _liteDatabase.GetCollection<Product>("products");
+            _productsCollection.EnsureIndex(x => x.ProductId);
         }
 
-        public Product AddItem(Product key)
+        public List<Product> GetAll()
         {
-            throw new NotImplementedException();
+            var list = _productsCollection.FindAll().ToList();
+            return list;
         }
 
-        public Product GetItem(Guid key)
+        public Product ById(Guid productId)
         {
-            throw new NotImplementedException();
+            var product = _productsCollection.FindById(productId);
+            return product;
+        }
+        public void Add(Product product)
+        {
+            product.ProductId = Guid.NewGuid();
+            product.ProductImage = product.ProductImage ?? "https://www.google.com/images/branding/googlelogo/1x/googlelogo_color_272x92dp.png";
+            _productsCollection.Insert(product);
         }
 
-        public void RemoveItem(Product key)
+        public void Remove(Guid productId)
         {
-            throw new NotImplementedException();
+            _productsCollection.Delete(productId);
+        }
+
+        public void Update(Product product)
+        {
+            _productsCollection.Update(product);
         }
     }
 }

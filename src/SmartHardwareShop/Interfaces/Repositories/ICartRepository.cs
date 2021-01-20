@@ -10,5 +10,6 @@ namespace SmartHardwareShop.Interfaces.Repositories
     {
         Task<Cart> GetCart(Guid cartId);
         Task<Cart> CreateCart();
+        Task CloseCart(Guid cartId);
     }
 }

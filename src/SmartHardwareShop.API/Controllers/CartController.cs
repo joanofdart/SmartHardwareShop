@@ -12,10 +12,10 @@ namespace SmartHardwareShop.API.Controllers
     [ApiController]
     public class CartController : ControllerBase
     {
-        private readonly IGetCart _getCart;
+        private readonly IGetProducts _getCart;
         private readonly ICreateCart _createCart;
 
-        public CartController(IGetCart getCart, ICreateCart createCart)
+        public CartController(IGetProducts getCart, ICreateCart createCart)
         {
             _getCart = getCart;
             _createCart = createCart;

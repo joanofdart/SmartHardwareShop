@@ -9,24 +9,24 @@ namespace SmartHardwareShop.Persistence
 {
     public class CartRepository : ICartRepository
     {
-        private readonly IMemoryDatabase<Cart> _memoryDatabase;
+        private readonly ICartHandler _cartHandler;
 
-        public CartRepository(IMemoryDatabase<Cart> memoryDatabase)
+        public CartRepository(ICartHandler cartHandler)
         {
-            _memoryDatabase = memoryDatabase;
+            _cartHandler = cartHandler;
         }
 
         public async Task<Cart> CreateCart()
         {
             return await Task.Run(() => {
-                return _memoryDatabase.AddItem(new Cart());
+                return _cartHandler.Create(new Cart());
             });
         }
 
         public async Task<Cart> GetCart(Guid cartId)
         {
             var _cartFromDB = await Task.Run(() => {
-                return _memoryDatabase.GetItem(cartId);
+                return _cartHandler.ById(cartId);
 
                 //return new Cart
                 //{
@@ -39,7 +39,11 @@ namespace SmartHardwareShop.Persistence
             return _cartFromDB;
         }
 
-
-
+        public async Task CloseCart(Guid cartId)
+        {
+            await Task.Run(() => {
+                _cartHandler.Close(cartId);
+            });
+        }
     }
 }
