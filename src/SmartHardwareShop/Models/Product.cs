@@ -7,6 +7,7 @@ namespace SmartHardwareShop.Models
     public class Product
     {
         public Guid ProductId { get; set; }
+        public int Quantity { get; set; }
         public string ProductName { get; set; }
         public string ProductSeller { get; set; }
         public string ProductDescription { get; set; }

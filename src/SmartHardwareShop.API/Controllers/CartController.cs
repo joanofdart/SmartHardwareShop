@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using SmartHardwareShop.API.Infrastructure;
 using SmartHardwareShop.Interfaces.UseCases;
+using SmartHardwareShop.Models;
 using System;
 using System.Threading.Tasks;
 
@@ -13,23 +14,29 @@ namespace SmartHardwareShop.API.Controllers
     public class CartController : ControllerBase
     {
         private readonly IGetCart _getCart;
+        private readonly IAddToCart _addToCart;
         private readonly IGetAllCarts _getAllCarts;
         private readonly ICreateCart _createCart;
         private readonly ICloseCart _closeCart;
         private readonly IOpenCart _openCart;
+        private readonly IDeleteFromCart _deleteFromCart;
 
         public CartController(
             IGetCart getCart,
             ICreateCart createCart,
             ICloseCart closeCart,
             IOpenCart openCart,
-            IGetAllCarts getAllCarts)
+            IGetAllCarts getAllCarts,
+            IAddToCart addToCart,
+            IDeleteFromCart deleteFromCart)
         {
             _getCart = getCart;
             _createCart = createCart;
             _closeCart = closeCart;
             _openCart = openCart;
             _getAllCarts = getAllCarts;
+            _addToCart = addToCart;
+            _deleteFromCart = deleteFromCart;
         }
 
         [HttpGet("all")]
@@ -74,8 +81,38 @@ namespace SmartHardwareShop.API.Controllers
             }
         }
 
+        //[Authorize(Policy = "CUSTOMER")]
+        [HttpPut("add")]
+        public async Task<IActionResult> AddToCart([FromBody] AddToCartModel addToCartModel)
+        {
+            try
+            {
+                var _cartResponse = await _addToCart.Execute(addToCartModel.ProductId, addToCartModel.CartId);
+                return Ok(_cartResponse);
+            }
+            catch (Exception)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError);
+            }
+        }
+
+        //[Authorize(Policy = "CUSTOMER")]
+        [HttpDelete]
+        public async Task<IActionResult> DeleteFromCart([FromBody] AddToCartModel addToCartModel)
+        {
+            try
+            {
+                var _cartResponse = await _deleteFromCart.Execute(addToCartModel.ProductId, addToCartModel.CartId);
+                return Ok(_cartResponse);
+            }
+            catch (Exception)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError);
+            }
+        }
+
         [Authorize(Policy = "ADMIN")]
-        [HttpPatch("close/{cartId}")]
+        [HttpPut("close/{cartId}")]
         public async Task<IActionResult> CloseCart(Guid cartId)
         {
             try
@@ -90,7 +127,7 @@ namespace SmartHardwareShop.API.Controllers
         }
 
         [Authorize(Policy = "ADMIN")]
-        [HttpPatch("open/{cartId}")]
+        [HttpPut("open/{cartId}")]
         public async Task<IActionResult> OpenCart(Guid cardId)
         {
             try

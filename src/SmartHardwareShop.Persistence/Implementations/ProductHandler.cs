@@ -61,6 +61,7 @@ namespace SmartHardwareShop.Persistence.Implementations
         public void Add(Product product)
         {
             product.ProductId = Guid.NewGuid();
+            product.Quantity = 1;
             _productsCollection.Insert(product);
         }
 
@@ -86,7 +87,8 @@ namespace SmartHardwareShop.Persistence.Implementations
                     ProductName = product.ProductName ?? productFromDB.ProductName,
                     ProductImage = product.ProductImage ?? productFromDB.ProductImage,
                     ProductPrice = product.ProductPrice != productFromDB.ProductPrice ? product.ProductPrice : productFromDB.ProductPrice,
-                    ProductSeller = product.ProductSeller ?? productFromDB.ProductSeller
+                    ProductSeller = product.ProductSeller ?? productFromDB.ProductSeller,
+                    Quantity = product.Quantity != productFromDB.Quantity ? product.Quantity : productFromDB.Quantity
                 };
 
                 _productsCollection.Update(updatedProduct);
@@ -108,7 +110,8 @@ namespace SmartHardwareShop.Persistence.Implementations
                             ProductName = _defaultProductNames[j],
                             ProductPrice = _random.Next(0, 2000),
                             ProductDescription = "Default Product",
-                            ProductSeller = _defaultShops[i]
+                            ProductSeller = _defaultShops[i],
+                            Quantity = 1,
                         };
                         products.Add(product);
                     }

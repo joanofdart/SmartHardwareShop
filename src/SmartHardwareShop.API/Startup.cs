@@ -57,10 +57,12 @@ namespace SmartHardwareShop
             container.RegisterPersistence();
 
             /// Cart Use Cases
-            container.Register<ICreateCart, CreateCart>();
             container.Register<IGetCart, GetCart>();
             container.Register<IOpenCart, OpenCart>();
             container.Register<ICloseCart, CloseCart>();
+            container.Register<IAddToCart, AddToCart>();
+            container.Register<IDeleteFromCart, DeleteFromCart>();
+            container.Register<ICreateCart, CreateCart>();
             container.Register<IGetAllCarts, GetAllCarts>();
 
             /// Product Use Cases

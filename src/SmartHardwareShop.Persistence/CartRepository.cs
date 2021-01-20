@@ -23,17 +23,28 @@ namespace SmartHardwareShop.Persistence
             });
         }
 
+        public async Task<Cart> Add(Guid productId, Guid cartId)
+        {
+            var _cartFromDB = await Task.Run(() => {
+                return _cartHandler.AddProduct(productId, cartId);
+            });
+
+            return _cartFromDB;
+        }
+
+        public async Task<Cart> Delete(Guid productId, Guid cartId)
+        {
+            var _cartFromDB = await Task.Run(() => {
+                return _cartHandler.DeleteProduct(productId, cartId);
+            });
+
+            return _cartFromDB;
+        }
+
         public async Task<Cart> Get(Guid cartId)
         {
             var _cartFromDB = await Task.Run(() => {
-                return _cartHandler.ById(cartId);
-
-                //return new Cart
-                //{
-                //    CartId = Guid.NewGuid(),
-                //    Products = new List<Product>(),
-                //    TotalPrice = 398938.39m,
-                //};
+                return _cartHandler.Get(cartId);
             });
 
             return _cartFromDB;

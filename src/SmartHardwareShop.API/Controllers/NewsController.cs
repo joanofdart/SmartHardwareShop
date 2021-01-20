@@ -65,7 +65,7 @@ namespace SmartHardwareShop.API.Controllers
         }
 
         [Authorize(Policy = "ADMIN")]
-        [HttpPut]
+        [HttpPut("add")]
         public async Task<IActionResult> AddNews([FromBody] News news)
         {
             try
@@ -81,7 +81,7 @@ namespace SmartHardwareShop.API.Controllers
         }
 
         [Authorize(Policy = "ADMIN")]
-        [HttpPatch]
+        [HttpPut("update")]
         public async Task<IActionResult> UpdateNews([FromBody] News news)
         {
             try

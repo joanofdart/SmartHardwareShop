@@ -9,6 +9,11 @@ namespace SmartHardwareShop.Implementations
     {
         private readonly INewsRepository _newsRepository;
 
+        public DeleteAllNews(INewsRepository newsRepository)
+        {
+            _newsRepository = newsRepository;
+        }
+
         public async Task Execute()
         {
             await _newsRepository.DeleteAll();
