@@ -8,6 +8,7 @@ namespace SmartHardwareShop.Persistence.Interfaces
     {
         List<Product> GetAll();
         Product Get(Guid productId);
+        List<Product> Search(Guid productId, string productName, string productSeller, string productDescription, decimal minPrice, decimal maxPrice);
         void Add(Product product);
         void Delete(Guid productId);
         void DeleteAll();

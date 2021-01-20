@@ -9,6 +9,7 @@ namespace SmartHardwareShop.Interfaces.Repositories
     {
         Task<List<Product>> GetAll();
         Task<Product> Get(Guid productId);
+        Task<List<Product>> Search(Guid productId, string productName, string productSeller, string productDescription, decimal minPrice, decimal maxPrice);
         Task Add(Product product);
         Task Delete(Guid productId);
         Task DeleteAll();

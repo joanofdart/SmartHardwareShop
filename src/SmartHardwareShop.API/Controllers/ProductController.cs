@@ -16,6 +16,7 @@ namespace SmartHardwareShop.API.Controllers
         private readonly IAddProduct _addProduct;
         private readonly IGenerateInitialProducts _generateInitialProducts;
         private readonly IGetProduct _getProduct;
+        private readonly ISearchProduct _searchProduct;
         private readonly IGetProducts _getProducts;
         private readonly IDeleteProduct _deleteProduct;
         private readonly IDeleteAllProducts _deleteAllProducts;
@@ -28,7 +29,8 @@ namespace SmartHardwareShop.API.Controllers
             IGetProducts getProducts,
             IDeleteProduct deleteProduct,
             IUpdateProduct updateProduct,
-            IDeleteAllProducts deleteAllProduct)
+            IDeleteAllProducts deleteAllProduct,
+            ISearchProduct searchProduct)
         {
             _addProduct = addProduct;
             _generateInitialProducts = generateInitialProducts;
@@ -37,6 +39,7 @@ namespace SmartHardwareShop.API.Controllers
             _deleteProduct = deleteProduct;
             _updateProduct = updateProduct;
             _deleteAllProducts = deleteAllProduct;
+            _searchProduct = searchProduct;
         }
 
         [HttpGet("all")]
@@ -61,6 +64,27 @@ namespace SmartHardwareShop.API.Controllers
                 var _productResponse = await _getProduct.Execute(productId);
                 return Ok(_productResponse);
             } 
+            catch (Exception)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError);
+            }
+        }
+
+        [HttpPost("search")]
+        public async Task<IActionResult> SearchProduct([FromBody] SearchProduct product)
+        {
+            try
+            {
+                var _productResponse = await _searchProduct.Execute(
+                    product.ProductId,
+                    product.ProductName,
+                    product.ProductSeller,
+                    product.ProductDescription,
+                    product.MinPrice,
+                    product.MaxPrice
+                );
+                return Ok(_productResponse);
+            }
             catch (Exception)
             {
                 return StatusCode(StatusCodes.Status500InternalServerError);

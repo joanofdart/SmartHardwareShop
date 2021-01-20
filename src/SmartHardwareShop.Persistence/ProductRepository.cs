@@ -68,5 +68,14 @@ namespace SmartHardwareShop.Persistence
                 _productHandler.Update(product);
             });
         }
+
+        public async Task<List<Product>> Search(Guid productId, string productName, string productSeller, string productDescription, decimal minPrice, decimal maxPrice)
+        {
+            var listOfProducts = await Task.Run(() => {
+                return _productHandler.Search(productId, productName, productSeller, productDescription, minPrice, maxPrice);
+            });
+
+            return listOfProducts;
+        }
     }
 }

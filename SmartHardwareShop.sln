@@ -5,9 +5,14 @@ VisualStudioVersion = 16.0.30907.101
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SmartHardwareShop.API", "src\SmartHardwareShop.API\SmartHardwareShop.API.csproj", "{072BE0DB-F9B1-4825-865E-296B93D3FA10}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmartHardwareShop", "src\SmartHardwareShop\SmartHardwareShop.csproj", "{BC1727BB-253C-40E8-9896-3CD5CA6CC993}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SmartHardwareShop", "src\SmartHardwareShop\SmartHardwareShop.csproj", "{BC1727BB-253C-40E8-9896-3CD5CA6CC993}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmartHardwareShop.Persistence", "src\SmartHardwareShop.Persistence\SmartHardwareShop.Persistence.csproj", "{A3CCF6C2-B6DE-41EF-BCC7-AEB865CB3F44}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SmartHardwareShop.Persistence", "src\SmartHardwareShop.Persistence\SmartHardwareShop.Persistence.csproj", "{A3CCF6C2-B6DE-41EF-BCC7-AEB865CB3F44}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "README", "README", "{F3B0E9D9-72F2-41DB-A172-A5F2ED5C85BF}"
+	ProjectSection(SolutionItems) = preProject
+		README.md = README.md
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

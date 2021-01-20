@@ -1,9 +1,9 @@
-﻿using LiteDB;
+﻿using LinqKit;
+using LiteDB;
 using SmartHardwareShop.Models;
 using SmartHardwareShop.Persistence.Interfaces;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 
 namespace SmartHardwareShop.Persistence.Implementations
@@ -118,6 +118,52 @@ namespace SmartHardwareShop.Persistence.Implementations
                 }
                 _productsCollection.InsertBulk(products);
             }
+        }
+
+        public List<Product> Search(
+            Guid productId,
+            string productName,
+            string productSeller,
+            string productDescription,
+            decimal minPrice,
+            decimal maxPrice)
+        {
+
+            var predicate = PredicateBuilder.New<Product>();
+
+            if (productId != null)
+            {
+                predicate = predicate.Or(x => x.ProductId == productId);
+            }
+
+            if (productName != null)
+            {
+                predicate = predicate.Or(x => x.ProductName.Contains(productName));
+            }
+
+            if (productSeller != null)
+            {
+                predicate = predicate.Or(x => x.ProductSeller.Contains(productSeller));
+            }
+            
+            if (productDescription != null)
+            {
+                predicate = predicate.Or(x => x.ProductDescription.Contains(productDescription));
+            }
+
+            if (minPrice != 0)
+            {
+                predicate = predicate.Or(x => x.ProductPrice >= minPrice);
+            }
+            
+            if (maxPrice != 0)
+            {
+                predicate = predicate.Or(x => x.ProductPrice <= maxPrice);
+            }
+
+            var prods = _productsCollection.Find(predicate);
+
+            return prods.ToList();
         }
     }
 }

@@ -67,6 +67,7 @@ namespace SmartHardwareShop
 
             /// Product Use Cases
             container.Register<IGetProduct, GetProduct>();
+            container.Register<ISearchProduct, SearchProduct>();
             container.Register<IGetProducts, GetProducts>();
             container.Register<IAddProduct, AddProduct>();
             container.Register<IUpdateProduct, UpdateProduct>();
