@@ -7,6 +7,6 @@ namespace SmartHardwareShop.Interfaces.UseCases
 {
     public interface IGetProducts
     {
-        Task<List<Product>> All();
+        Task<List<Product>> Execute();
     }
 }

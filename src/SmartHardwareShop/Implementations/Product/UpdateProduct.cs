@@ -1,8 +1,6 @@
 ﻿using SmartHardwareShop.Interfaces.Repositories;
 using SmartHardwareShop.Interfaces.UseCases;
 using SmartHardwareShop.Models;
-using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace SmartHardwareShop.Implementations
@@ -16,9 +14,9 @@ namespace SmartHardwareShop.Implementations
             _productRepository = productRepository;
         }
 
-        public async Task Update(Product product)
+        public async Task Execute(Product product)
         {
-            await _productRepository.UpdateProduct(product);
+            await _productRepository.Update(product);
         }
     }
 }

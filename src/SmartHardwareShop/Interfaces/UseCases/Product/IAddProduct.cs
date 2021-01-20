@@ -5,6 +5,6 @@ namespace SmartHardwareShop.Interfaces.UseCases
 {
     public interface IAddProduct
     {
-        Task Add(Product product);
+        Task Execute(Product product);
     }
 }

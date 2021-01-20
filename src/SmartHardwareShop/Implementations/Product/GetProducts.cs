@@ -15,9 +15,9 @@ namespace SmartHardwareShop.Implementations
             _productRepository = productRepository;
         }
 
-        public async Task<List<Product>> All()
+        public async Task<List<Product>> Execute()
         {
-            var listOfProducts = await _productRepository.GetAllProducts();
+            var listOfProducts = await _productRepository.GetAll();
             return listOfProducts;
         }
     }

@@ -17,7 +17,7 @@ namespace SmartHardwareShop.Persistence
             _productHandler = productHandler;
         }
 
-        public async Task<List<Product>> GetAllProducts()
+        public async Task<List<Product>> GetAll()
         {
             var listOfProducts = await Task.Run(() => {
                 return _productHandler.GetAll();
@@ -26,7 +26,7 @@ namespace SmartHardwareShop.Persistence
             return listOfProducts;
         }
 
-        public async Task<Product> GetProductById(Guid productId)
+        public async Task<Product> Get(Guid productId)
         {
             var productFromDb = await Task.Run(() => {
                 return _productHandler.ById(productId);
@@ -35,21 +35,34 @@ namespace SmartHardwareShop.Persistence
             return productFromDb;
         }
 
-        public async Task AddProduct(Product product)
+        public async Task Add(Product product)
         {
             await Task.Run(() => {
                 _productHandler.Add(product);
             });
         }
+        public async Task Generate()
+        {
+            await Task.Run(() => {
+                _productHandler.GenerateInitialProducts();
+            });
+        }
 
-        public async Task DeleteProduct(Guid productId)
+        public async Task Delete(Guid productId)
         {
             await Task.Run(() => {
                 _productHandler.Remove(productId);
             });
         }
 
-        public async Task UpdateProduct(Product product)
+        public async Task DeleteAll()
+        {
+            await Task.Run(() => {
+                _productHandler.RemoveAll();
+            });
+        }
+
+        public async Task Update(Product product)
         {
             await Task.Run(() => {
                 _productHandler.Update(product);

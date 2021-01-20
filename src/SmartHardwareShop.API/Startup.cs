@@ -55,9 +55,22 @@ namespace SmartHardwareShop
         public void InitializeContainer()
         {
             container.RegisterPersistence();
+
             /// Register use cases
+            container.Register<IGetProduct, GetProduct>();
             container.Register<IGetProducts, GetProducts>();
+            container.Register<IAddProduct, AddProduct>();
+            container.Register<IUpdateProduct, UpdateProduct>();
+            container.Register<IDeleteProduct, DeleteProduct>();
+            container.Register<IDeleteAllProducts, DeleteAllProducts>();
+            container.Register<IGenerateInitialProducts, GenerateInitialProducts>();
+
+            /// Cart Use Cases
             container.Register<ICreateCart, CreateCart>();
+            container.Register<IGetCart, GetCart>();
+            container.Register<IOpenCart, OpenCart>();
+            container.Register<ICloseCart, CloseCart>();
+            container.Register<IGetAllCarts, GetAllCarts>();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

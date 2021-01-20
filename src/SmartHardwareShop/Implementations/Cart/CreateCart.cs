@@ -19,7 +19,7 @@ namespace SmartHardwareShop.Implementations
 
         public async Task<Cart> Execute()
         {
-            return await _cartRepository.CreateCart();
+            return await _cartRepository.Create();
         }
     }
 }

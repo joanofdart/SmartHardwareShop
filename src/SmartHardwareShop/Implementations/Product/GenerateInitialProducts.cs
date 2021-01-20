@@ -7,20 +7,20 @@ using System.Threading.Tasks;
 
 namespace SmartHardwareShop.Implementations
 {
-    public class GetProduct : IGetProduct
+    public class GenerateInitialProducts : IGenerateInitialProducts
     {
         private readonly IProductRepository _productRepository;
 
-        public GetProduct(IProductRepository productRepository)
+        public GenerateInitialProducts(IProductRepository productRepository)
         {
             _productRepository = productRepository;
         }
 
-        public async Task<Product> Execute(Guid productId)
+        public async Task Execute()
         {
-            var productFromDB = await _productRepository.Get(productId);
-            return productFromDB;
+            await _productRepository.Generate();
         }
+
     }
 }
 

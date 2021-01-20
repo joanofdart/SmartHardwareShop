@@ -8,8 +8,10 @@ namespace SmartHardwareShop.Interfaces.Repositories
 {
     public interface ICartRepository
     {
-        Task<Cart> GetCart(Guid cartId);
-        Task<Cart> CreateCart();
-        Task CloseCart(Guid cartId);
+        Task<Cart> Get(Guid cartId);
+        Task<List<Cart>> GetAll();
+        Task<Cart> Create();
+        Task Close(Guid cartId);
+        Task Open(Guid cartId);
     }
 }

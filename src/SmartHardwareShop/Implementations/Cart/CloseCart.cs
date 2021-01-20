@@ -15,10 +15,9 @@ namespace SmartHardwareShop.Implementations
             _cartRepository = cartRepository;
         }
 
-        public async Task<Cart> ById(Guid cartId)
+        public async Task Execute(Guid cartId)
         {
-            var _cartResponse = await _cartRepository.Clo(cartId);
-            return _cartResponse;
+            await _cartRepository.Close(cartId);
         }
     }
 }

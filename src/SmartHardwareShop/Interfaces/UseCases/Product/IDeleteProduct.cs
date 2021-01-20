@@ -5,8 +5,8 @@ using System.Threading.Tasks;
 
 namespace SmartHardwareShop.Interfaces.UseCases
 {
-    public interface IRemoveProduct
+    public interface IDeleteProduct
     {
-        Task Remove(Guid productId);
+        Task Execute(Guid productId);
     }
 }

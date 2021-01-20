@@ -5,18 +5,18 @@ using System.Threading.Tasks;
 
 namespace SmartHardwareShop.Implementations
 {
-    public class RemoveProduct : IRemoveProduct
+    public class DeleteProduct : IDeleteProduct
     {
         private readonly IProductRepository _productRepository;
 
-        public RemoveProduct(IProductRepository productRepository)
+        public DeleteProduct(IProductRepository productRepository)
         {
             _productRepository = productRepository;
         }
 
-        public async Task Remove(Guid productId)
+        public async Task Execute(Guid productId)
         {
-            await _productRepository.DeleteProduct(productId);
+            await _productRepository.Delete(productId);
         }
     }
 }

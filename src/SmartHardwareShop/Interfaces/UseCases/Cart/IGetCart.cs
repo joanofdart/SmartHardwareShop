@@ -6,6 +6,6 @@ namespace SmartHardwareShop.Interfaces.UseCases
 {
     public interface IGetCart
     {
-        Task<Cart> ById(Guid cartId);
+        Task<Cart> Execute(Guid cartId);
     }
 }

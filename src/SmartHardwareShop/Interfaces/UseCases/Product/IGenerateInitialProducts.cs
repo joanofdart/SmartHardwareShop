@@ -1,10 +1,11 @@
 ﻿using SmartHardwareShop.Models;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace SmartHardwareShop.Interfaces.UseCases
 {
-    public interface IUpdateProduct
+    public interface IGenerateInitialProducts
     {
-        Task Execute(Product product);
+        Task Execute();
     }
 }

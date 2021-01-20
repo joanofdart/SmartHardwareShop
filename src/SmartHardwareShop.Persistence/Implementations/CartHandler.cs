@@ -3,6 +3,7 @@ using SmartHardwareShop.Models;
 using SmartHardwareShop.Persistence.Interfaces;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace SmartHardwareShop.Persistence.Implementations
 {
@@ -33,10 +34,23 @@ namespace SmartHardwareShop.Persistence.Implementations
             return cart;
         }
 
+        public List<Cart> GetAll()
+        {
+            var carts = _cartsCollection.FindAll().ToList();
+            return carts;
+        }
+
         public void Close(Guid cartId)
         {
             var cart = _cartsCollection.FindById(cartId);
             cart.CartClosed = true;
+            _cartsCollection.Update(cart);
+        }
+
+        public void Open(Guid cartId)
+        {
+            var cart = _cartsCollection.FindById(cartId);
+            cart.CartClosed = false;
             _cartsCollection.Update(cart);
         }
     }

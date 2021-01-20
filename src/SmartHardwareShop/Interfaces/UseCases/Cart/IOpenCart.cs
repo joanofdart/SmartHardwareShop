@@ -1,10 +1,11 @@
 ﻿using SmartHardwareShop.Models;
+using System;
 using System.Threading.Tasks;
 
 namespace SmartHardwareShop.Interfaces.UseCases
 {
-    public interface IUpdateProduct
+    public interface IOpenCart
     {
-        Task Execute(Product product);
+        Task Execute(Guid cartId);
     }
 }

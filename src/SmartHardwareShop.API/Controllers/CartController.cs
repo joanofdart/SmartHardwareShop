@@ -12,29 +12,52 @@ namespace SmartHardwareShop.API.Controllers
     [ApiController]
     public class CartController : ControllerBase
     {
-        private readonly IGetProducts _getCart;
+        private readonly IGetCart _getCart;
+        private readonly IGetAllCarts _getAllCarts;
         private readonly ICreateCart _createCart;
+        private readonly ICloseCart _closeCart;
+        private readonly IOpenCart _openCart;
 
-        public CartController(IGetProducts getCart, ICreateCart createCart)
+        public CartController(
+            IGetCart getCart,
+            ICreateCart createCart,
+            ICloseCart closeCart,
+            IOpenCart openCart,
+            IGetAllCarts getAllCarts)
         {
             _getCart = getCart;
             _createCart = createCart;
+            _closeCart = closeCart;
+            _openCart = openCart;
+            _getAllCarts = getAllCarts;
         }
 
-        [Authorize(Policy = "ADMIN")]
+        [HttpGet("all")]
+        public async Task<IActionResult> GetAllCarts()
+        {
+            try
+            {
+                var _cartResponse = await _getAllCarts.Execute();
+                return Ok(_cartResponse);
+            }
+            catch (Exception)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError);
+            }
+        }
+
         [HttpGet("{cartId}")]
         public async Task<IActionResult> GetCartById(Guid cartId)
         {
             try
             {
-                var _cartResponse = await _getCart.ById(cartId);
+                var _cartResponse = await _getCart.Execute(cartId);
                 return Ok(_cartResponse);
             } 
             catch (Exception)
             {
                 return StatusCode(StatusCodes.Status500InternalServerError);
             }
-            
         }
 
         [HttpPost]
@@ -44,6 +67,37 @@ namespace SmartHardwareShop.API.Controllers
             {
                 var _cartResponse = await _createCart.Execute();
                 return Ok(_cartResponse);
+            }
+            catch (Exception)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError);
+            }
+
+        }
+
+        [Authorize(Policy = "ADMIN")]
+        [HttpPatch("close/{cartId}")]
+        public async Task<IActionResult> CloseCart(Guid cartId)
+        {
+            try
+            {
+                await _closeCart.Execute(cartId);
+                return Ok(StatusCode(StatusCodes.Status200OK));
+            }
+            catch (Exception)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError);
+            }
+        }
+
+        [Authorize(Policy = "ADMIN")]
+        [HttpPatch("open/{cartId}")]
+        public async Task<IActionResult> OpenCart(Guid cardId)
+        {
+            try
+            {
+                await _openCart.Execute(cardId);
+                return Ok(StatusCode(StatusCodes.Status200OK));
             }
             catch (Exception)
             {

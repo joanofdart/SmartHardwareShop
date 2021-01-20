@@ -1,25 +1,22 @@
 ﻿using SmartHardwareShop.Interfaces.Repositories;
 using SmartHardwareShop.Interfaces.UseCases;
-using SmartHardwareShop.Models;
 using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace SmartHardwareShop.Implementations
 {
-    public class GetProduct : IGetProduct
+    public class DeleteAllProducts : IDeleteAllProducts
     {
         private readonly IProductRepository _productRepository;
 
-        public GetProduct(IProductRepository productRepository)
+        public DeleteAllProducts(IProductRepository productRepository)
         {
             _productRepository = productRepository;
         }
 
-        public async Task<Product> Execute(Guid productId)
+        public async Task Execute()
         {
-            var productFromDB = await _productRepository.Get(productId);
-            return productFromDB;
+            await _productRepository.DeleteAll();
         }
     }
 }

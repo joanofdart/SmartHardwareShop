@@ -16,9 +16,9 @@ namespace SmartHardwareShop.Implementations
             _productRepository = productRepository;
         }
 
-        public async Task Add(Product product)
+        public async Task Execute(Product product)
         {
-            await _productRepository.AddProduct(product);
+            await _productRepository.Add(product);
         }
 
     }

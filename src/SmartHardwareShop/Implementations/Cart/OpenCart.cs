@@ -6,19 +6,18 @@ using System.Threading.Tasks;
 
 namespace SmartHardwareShop.Implementations
 {
-    public class GetCart : IGetCart
+    public class OpenCart : IOpenCart
     {
         private readonly ICartRepository _cartRepository;
 
-        public GetCart(ICartRepository cartRepository)
+        public OpenCart(ICartRepository cartRepository)
         {
             _cartRepository = cartRepository;
         }
 
-        public async Task<Cart> Execute(Guid cartId)
+        public async Task Execute(Guid cartId)
         {
-            var _cartResponse = await _cartRepository.Get(cartId);
-            return _cartResponse;
+            await _cartRepository.Open(cartId);
         }
     }
 }

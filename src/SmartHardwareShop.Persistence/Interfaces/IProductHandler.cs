@@ -10,6 +10,8 @@ namespace SmartHardwareShop.Persistence.Interfaces
         Product ById(Guid productId);
         void Add(Product product);
         void Remove(Guid productId);
+        void RemoveAll();
         void Update(Product product);
+        void GenerateInitialProducts();
     }
 }
